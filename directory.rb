@@ -33,9 +33,46 @@ def input_students
     # Gets the first name
     name = gets.chomp
     # If they have not entered a name, they want to break. Else then ask for the cohort and continue
-    if name.empty?
+    if name == "break"
       break
-    else
+    # Check for Empty name and need for DEFAULT NAME
+    elsif name.empty?
+      puts "Please enter their cohort"
+      cohort = gets.chomp
+      # While the name is not empty repeat code
+      if cohort.empty?
+        # Gets Hobby
+        puts "Please enter your favourite hobby"
+        hobby = gets.chomp
+        # Gets country of birth
+        puts "Please enter your country of birth"
+        country = gets.chomp
+        # Add the student hash to the array
+        students << {name: default_name, cohort: default_cohort, hobby: hobby, country: :country}
+        if students.count < 2
+          puts "Now we have #{students.count} student"
+        else
+          puts "Now we have #{students.count} students"
+        end
+        puts "Please enter the name of the next student or enter to stop"
+      elsif !cohort.empty?
+        # Gets Hobby
+        puts "Please enter your favourite hobby"
+        hobby = gets.chomp
+        # Gets country of birth
+        puts "Please enter your country of birth"
+        country = gets.chomp
+        # Add the student hash to the array
+        students << {name: default_name, cohort: cohort, hobby: hobby, country: :country}
+        if students.count < 2
+          puts "Now we have #{students.count} student"
+        else
+          puts "Now we have #{students.count} students"
+        end
+        puts "Please enter the name of the next student or enter to stop"
+      end
+    # Check name has been entered
+    elsif !name.empty?
       puts "Please enter their cohort"
       cohort = gets.chomp
       # While the name is not empty repeat code
@@ -48,10 +85,27 @@ def input_students
         country = gets.chomp
         # Add the student hash to the array
         students << {name: name, cohort: default_cohort, hobby: hobby, country: :country}
-        puts "Now we have #{students.count} students"
+        if students.count < 2
+          puts "Now we have #{students.count} student"
+        else
+          puts "Now we have #{students.count} students"
+        end
         puts "Please enter the name of the next student or enter to stop"
-      elsif name.empty?
-        break
+      elsif !cohort.empty?
+        # Gets Hobby
+        puts "Please enter your favourite hobby"
+        hobby = gets.chomp
+        # Gets country of birth
+        puts "Please enter your country of birth"
+        country = gets.chomp
+        # Add the student hash to the array
+        students << {name: name, cohort: cohort, hobby: hobby, country: :country}
+        if students.count < 2
+          puts "Now we have #{students.count} student"
+        else
+          puts "Now we have #{students.count} students"
+        end
+        puts "Please enter the name of the next student or enter to stop"
       end
     end
   end
