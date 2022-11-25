@@ -4,7 +4,6 @@ def print_header
 end
 
 def print(students)
-  counter = students.length
   students.each_with_index do |student, index|
     puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)".center(75)
   end
@@ -14,29 +13,46 @@ def print_footer(students)
   puts "Overall, we have #{students.count} great students"
 end
 
+# Create default values for name and cohort
+# Check if name and cohort are not empty
+# If both not empty proceed
+# If one is empty, check which
+# Then in that students << {hash} add the default values variables
+# .to_s to convert string to symbol
+
 def input_students
   # Empty array for storage of names
   students = []
+  default_cohort = :november
+  default_name = "John Doe"
+
   puts "Please enter the names of the first student"
   puts "To finish, just hit return once"
   
   while true do
     # Gets the first name
     name = gets.chomp
-    # While the name is not empty repeat code
-    if !name.empty? 
-      # Gets Hobby
-      puts "Please enter your favourite hobby"
-      hobby = gets.chomp
-      # Gets country of birth
-      puts "Please enter your country of birth"
-      country = gets.chomp
-      # Add the student hash to the array
-      students << {name: name, cohort: :november, hobby: hobby, country: :country}
-      puts "Now we have #{students.count} students"
-      puts "Please enter the name of the next student or enter to stop"
-    elsif name.empty?
+    # If they have not entered a name, they want to break. Else then ask for the cohort and continue
+    if name.empty?
       break
+    else
+      puts "Please enter their cohort"
+      cohort = gets.chomp
+      # While the name is not empty repeat code
+      if cohort.empty?
+        # Gets Hobby
+        puts "Please enter your favourite hobby"
+        hobby = gets.chomp
+        # Gets country of birth
+        puts "Please enter your country of birth"
+        country = gets.chomp
+        # Add the student hash to the array
+        students << {name: name, cohort: default_cohort, hobby: hobby, country: :country}
+        puts "Now we have #{students.count} students"
+        puts "Please enter the name of the next student or enter to stop"
+      elsif name.empty?
+        break
+      end
     end
   end
   # Returns array of students
