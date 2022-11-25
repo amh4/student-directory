@@ -4,8 +4,9 @@ def print_header
 end
 
 def print(students)
+  counter = students.length
   students.each_with_index do |student, index|
-    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)".center(75)
   end
 end
 
@@ -14,23 +15,32 @@ def print_footer(students)
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
   # Empty array for storage of names
   students = []
-  # Gets the first name
-  name = gets.chomp
-  # While the name is not empty repeat code
-  while !name.empty? do
-    # Add the student hash to the array
-    students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
-    # Gets another name in loop
+  puts "Please enter the names of the first student"
+  puts "To finish, just hit return once"
+  
+  while true do
+    # Gets the first name
     name = gets.chomp
+    # While the name is not empty repeat code
+    if !name.empty? 
+      # Gets Hobby
+      puts "Please enter your favourite hobby"
+      hobby = gets.chomp
+      # Gets country of birth
+      puts "Please enter your country of birth"
+      country = gets.chomp
+      # Add the student hash to the array
+      students << {name: name, cohort: :november, hobby: hobby, country: :country}
+      puts "Now we have #{students.count} students"
+      puts "Please enter the name of the next student or enter to stop"
+    elsif name.empty?
+      break
+    end
   end
-
-students
-# Returns array of students
+  # Returns array of students
+  students
 end
 
 # Asks for user for starting character they want to filter for
@@ -42,8 +52,19 @@ def name_by_letter(students)
   puts selected_students
 end
 
+# Filters out names on character length
+def name_length(students)
+  students.each do |student|
+    if student[:name].length < 12
+      puts student
+    else
+    end
+  end
+end
+
 students = input_students
 print_header
 print(students)
 print_footer(students)
-name_by_letter(students)
+# name_by_letter(students)
+# name_length(students)
