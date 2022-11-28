@@ -177,8 +177,11 @@ def interactive_menu
 end
 
 def save_students
+  # Asks user to provide file name
+  puts "What would you like to name the file? .csv will be added automatically for you"
+  user_file_name = STDIN.gets.chomp
   # Open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open("#{user_file_name}.csv", "w")
   # Iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -188,11 +191,30 @@ def save_students
   file.close
 end
 
+
+# Ask if they want a specific file
+# If not load default value
+
 def load_students(filename = "students.csv")
-  file = File.open("students.csv", "r")
-  file.readlines.each do |line|
+  puts "Would you like to load a specific file Y/N?"
+  user_input = gets.chomp.upcase
+  if user_input == "Y"
+    puts "Please enter the name of the file you would like without '.csv'"
+    user_file_name = STDIN.gets.chomp
+    file = File.open("#{user_file_name}.csv", "r")
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(",")
+      @students << {name: name, cohort: cohort.to_sym}
+    end
+  elsif 
+    puts "Loading students.csv"
+    file = File.open("students.csv", "r")
+    file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
     @students << {name: name, cohort: cohort.to_sym}
+    end
+  else
+    puts "#{user_file_name} does not exist"
   end
   file.close
 end
@@ -202,7 +224,7 @@ def try_load_students
   filename = ARGV.first
   # Leaves method if file name not given
   if filename.nil?
-    puts "Students.csv will now be loaded as default"
+    puts "Students.csv will now be loaded as default unless you choose otherwise"
     load_students
   # If it does exist
   elsif File.exist?(filename)
