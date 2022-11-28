@@ -7,14 +7,11 @@ end
 
 def print_students_list
   cohort_groups = {}
-
   @students.each_with_index do |student, index|
     cohort = student[:cohort]
-
     if cohort_groups[cohort] == nil
       cohort_groups[cohort] = []
     end
-
     cohort_groups[cohort].push(student[:name], student[:hobby], student[:country])
   end
   puts cohort_groups
@@ -23,10 +20,6 @@ end
 def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
-
-# create list of months
-# if cohort in months then proceed
-# else ask
 
 def input_students
   # Empty array for storage of names
@@ -156,14 +149,19 @@ end
 def process(selection)
   case selection
   when "1"
+    puts "Option 1 selected"
     input_students
   when "2"
+    puts "Option 2 selected"
     show_students
   when "3"
+    puts "Option 3 selected"
     save_students
   when "4"
+    puts "Option 4 selected"
     load_students
   when "9"
+    puts "Option 9 selected"
     exit 
   else
     puts "I don't know what you mean, try again"
@@ -202,19 +200,18 @@ end
 def try_load_students
   # First argument from command line
   filename = ARGV.first
-  # Leaves method of file name does not exist
-  return if filename.nil?
+  # Leaves method if file name not given
+  if filename.nil?
+    puts "Students.csv will now be loaded as default"
+    load_students
   # If it does exist
-  if File.exist?(filename)
+  elsif File.exist?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   # If it doesn't exist
   else
-    puts "Sorry, #{filename} does not exist"
-    exit
+    puts "Sorry, #{filename} does not exist."
   end
 end
-
-
 
 interactive_menu
