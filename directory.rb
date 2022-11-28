@@ -38,22 +38,22 @@ def input_students
   
   while true do
     # Gets the first name
-    name = gets.chomp.downcase
+    name = STDIN.gets.chomp.downcase
     # If they have not entered a name, they want to break. Else then ask for the cohort and continue
     if name == "stop"
       break
     # Check for Empty name and need for DEFAULT NAME
     elsif name.empty?
       puts "Please enter their cohort"
-      cohort = gets.chomp
+      cohort = STDIN.gets.chomp
       # While the name is not empty repeat code
       if cohort.empty?
         # Gets Hobby
         puts "Please enter your favourite hobby"
-        hobby = gets.chomp
+        hobby = STDIN.gets.chomp
         # Gets country of birth
         puts "Please enter your country of birth"
-        country = gets.chomp
+        country = STDIN.gets.chomp
         # Add the student hash to the array
         @students << {name: default_name, cohort: default_cohort, hobby: hobby, country: :country}
         if @students.count < 2
@@ -65,10 +65,10 @@ def input_students
       elsif !cohort.empty?
         # Gets Hobby
         puts "Please enter your favourite hobby"
-        hobby = gets.chomp
+        hobby = STDIN.gets.chomp
         # Gets country of birth
         puts "Please enter your country of birth"
-        country = gets.chomp
+        country = STDIN.gets.chomp
         # Add the student hash to the array
         @students << {name: default_name, cohort: cohort.to_sym, hobby: hobby, country: :country}
         if @students.count < 2
@@ -81,15 +81,15 @@ def input_students
     # Check name has been entered
     elsif !name.empty?
       puts "Please enter their cohort"
-      cohort = gets.chomp
+      cohort = STDIN.gets.chomp
       # While the name is not empty repeat code
       if cohort.empty?
         # Gets Hobby
         puts "Please enter your favourite hobby"
-        hobby = gets.chomp
+        hobby = STDIN.gets.chomp
         # Gets country of birth
         puts "Please enter your country of birth"
-        country = gets.chomp
+        country = STDIN.gets.chomp
         # Add the student hash to the array
         @students << {name: name, cohort: default_cohort, hobby: hobby, country: :country}
         if @students.count < 2
@@ -101,10 +101,10 @@ def input_students
       elsif !cohort.empty?
         # Gets Hobby
         puts "Please enter your favourite hobby"
-        hobby = gets.chomp
+        hobby = STDIN.gets.chomp
         # Gets country of birth
         puts "Please enter your country of birth"
-        country = gets.chomp
+        country = STDIN.gets.chomp
         # Add the student hash to the array
         @students << {name: name, cohort: cohort.to_sym, hobby: hobby, country: :country}
         if @students.count < 2
@@ -124,7 +124,7 @@ end
 def name_by_letter
   puts "Select the first letter you want to match with"
   selected_students = []
-  letter = gets.chomp
+  letter = STDIN.gets.chomp
   selected_students << @students.select {|student| student[:name].start_with?(letter)}
   puts selected_students
 end
@@ -171,9 +171,10 @@ def process(selection)
 end
 
 def interactive_menu
+  try_load_students
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
