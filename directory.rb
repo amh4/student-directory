@@ -5,7 +5,7 @@ def print_header
   puts "-------------"
 end
 
-def print
+def print_students_list
   cohort_groups = {}
 
   @students.each_with_index do |student, index|
@@ -34,7 +34,7 @@ def input_students
   default_name = "John Doe"
 
   puts "Please enter the names of the first student"
-  puts "To finish, type in break once you have finished a student's details"
+  puts "To finish, type in stop once you have finished all student's details"
   
   while true do
     # Gets the first name
@@ -56,7 +56,7 @@ def input_students
         country = gets.chomp
         # Add the student hash to the array
         @students << {name: default_name, cohort: default_cohort, hobby: hobby, country: :country}
-        if students.count < 2
+        if @students.count < 2
           puts "Now we have #{@students.count} student"
         else
           puts "Now we have #{@students.count} students"
@@ -107,7 +107,7 @@ def input_students
         country = gets.chomp
         # Add the student hash to the array
         @students << {name: name, cohort: cohort.to_sym, hobby: hobby, country: :country}
-        if students.count < 2
+        if @students.count < 2
           puts "Now we have #{@students.count} student"
         else
           puts "Now we have #{@students.count} students"
@@ -141,28 +141,33 @@ end
 
 def show_students
   print_header
-  print(@students)
-  print_footer(@students)
+  print_students_list
+  print_footer
+end
+
+def print_menu
+  puts "1. Input Students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+def process(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    show_students
+  when "9"
+    exit 
+  else
+    puts "I don't know what you mean, try again"
+  end
 end
 
 def interactive_menu
   loop do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-
-    selection = gets.chomp
-
-    case selection
-    when "1"
-      input_students
-    when "2"
-      show_students
-    when "9"
-      exit 
-    else
-      puts "I don't know what you mean, try again"
-    end
+    print_menu
+    process(gets.chomp)
   end
 end
 
