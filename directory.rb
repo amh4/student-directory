@@ -3,12 +3,6 @@ def print_header
   puts "-------------"
 end
 
-# def print(students)
-#   students.each_with_index do |student, index|
-#     puts "#{index}. #{student[:name]} #{student[:hobby]} #{student[:country]}(#{student[:cohort]} cohort)".center(75)
-#   end
-# end
-
 def print(students)
   cohort_groups = {}
 
@@ -43,7 +37,7 @@ def input_students
   
   while true do
     # Gets the first name
-    name = gets.chomp
+    name = gets.chomp.downcase
     # If they have not entered a name, they want to break. Else then ask for the cohort and continue
     if name == "stop"
       break
@@ -145,8 +139,15 @@ def name_length(students)
 end
 
 students = input_students
-print_header
-print(students)
-print_footer(students)
-# name_by_letter(students)
-# name_length(students)
+
+def run_directory
+  if students.length > 0
+    print_header
+    print(students)
+    print_footer(students)
+  else
+    puts "You have no students in this directory"
+  end
+end
+
+run_directory
