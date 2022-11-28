@@ -138,16 +138,28 @@ def name_length(students)
   end
 end
 
-students = input_students
+def interactive_menu
+  students = []
+  loop do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
 
-def run_directory
-  if students.length > 0
-    print_header
-    print(students)
-    print_footer(students)
-  else
-    puts "You have no students in this directory"
+    selection = gets.chomp
+
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      print(students)
+      print_footer
+    when "9"
+      exit 
+    else
+      puts "I don't know what you mean, try again"
+    end
   end
 end
 
-run_directory
+interactive_menu
