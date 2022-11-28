@@ -1,12 +1,14 @@
+@students = [] # Empty array accessible to all methods
+
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
 end
 
-def print(students)
+def print
   cohort_groups = {}
 
-  students.each_with_index do |student, index|
+  @students.each_with_index do |student, index|
     cohort = student[:cohort]
 
     if cohort_groups[cohort] == nil
@@ -18,8 +20,8 @@ def print(students)
   puts cohort_groups
 end
 
-def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+def print_footer
+  puts "Overall, we have #{@students.count} great students"
 end
 
 # create list of months
@@ -28,7 +30,6 @@ end
 
 def input_students
   # Empty array for storage of names
-  students = []
   default_cohort = :november
   default_name = "John Doe"
 
@@ -54,11 +55,11 @@ def input_students
         puts "Please enter your country of birth"
         country = gets.chomp
         # Add the student hash to the array
-        students << {name: default_name, cohort: default_cohort, hobby: hobby, country: :country}
+        @students << {name: default_name, cohort: default_cohort, hobby: hobby, country: :country}
         if students.count < 2
-          puts "Now we have #{students.count} student"
+          puts "Now we have #{@students.count} student"
         else
-          puts "Now we have #{students.count} students"
+          puts "Now we have #{@students.count} students"
         end
         puts "Please enter the name of the next student or type stop"
       elsif !cohort.empty?
@@ -69,11 +70,11 @@ def input_students
         puts "Please enter your country of birth"
         country = gets.chomp
         # Add the student hash to the array
-        students << {name: default_name, cohort: cohort.to_sym, hobby: hobby, country: :country}
-        if students.count < 2
-          puts "Now we have #{students.count} student"
+        @students << {name: default_name, cohort: cohort.to_sym, hobby: hobby, country: :country}
+        if @students.count < 2
+          puts "Now we have #{@students.count} student"
         else
-          puts "Now we have #{students.count} students"
+          puts "Now we have #{@students.count} students"
         end
         puts "Please enter the name of the next student or type stop"
       end
@@ -90,11 +91,11 @@ def input_students
         puts "Please enter your country of birth"
         country = gets.chomp
         # Add the student hash to the array
-        students << {name: name, cohort: default_cohort, hobby: hobby, country: :country}
-        if students.count < 2
-          puts "Now we have #{students.count} student"
+        @students << {name: name, cohort: default_cohort, hobby: hobby, country: :country}
+        if @students.count < 2
+          puts "Now we have #{@students.count} student"
         else
-          puts "Now we have #{students.count} students"
+          puts "Now we have #{@students.count} students"
         end
         puts "Please enter the name of the next student or type stop"
       elsif !cohort.empty?
@@ -105,32 +106,32 @@ def input_students
         puts "Please enter your country of birth"
         country = gets.chomp
         # Add the student hash to the array
-        students << {name: name, cohort: cohort.to_sym, hobby: hobby, country: :country}
+        @students << {name: name, cohort: cohort.to_sym, hobby: hobby, country: :country}
         if students.count < 2
-          puts "Now we have #{students.count} student"
+          puts "Now we have #{@students.count} student"
         else
-          puts "Now we have #{students.count} students"
+          puts "Now we have #{@students.count} students"
         end
         puts "Please enter the name of the next student or type stop"
       end
     end
   end
   # Returns array of students
-  students
+  @students
 end
 
 # Asks for user for starting character they want to filter for
-def name_by_letter(students)
+def name_by_letter
   puts "Select the first letter you want to match with"
   selected_students = []
   letter = gets.chomp
-  selected_students << students.select {|student| student[:name].start_with?(letter)}
+  selected_students << @students.select {|student| student[:name].start_with?(letter)}
   puts selected_students
 end
 
 # Filters out names on character length
-def name_length(students)
-  students.each do |student|
+def name_length
+  @students.each do |student|
     if student[:name].length < 12
       puts student
     else
@@ -138,8 +139,13 @@ def name_length(students)
   end
 end
 
+def show_students
+  print_header
+  print(@students)
+  print_footer(@students)
+end
+
 def interactive_menu
-  students = []
   loop do
     puts "1. Input the students"
     puts "2. Show the students"
@@ -149,11 +155,9 @@ def interactive_menu
 
     case selection
     when "1"
-      students = input_students
+      input_students
     when "2"
-      print_header
-      print(students)
-      print_footer
+      show_students
     when "9"
       exit 
     else
