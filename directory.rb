@@ -181,12 +181,10 @@ def save_students
   # Asks user to provide file name
   puts "What would you like to name the file? .csv will be added automatically for you"
   user_file_name = STDIN.gets.chomp
-
-  CSV.open("/#{user_file_name}.csv", "a+") do |row|
+  CSV.open("#{user_file_name}.csv", "a+") do |row|
   # Iterate over the array of students
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      row << csv_line = student_data.join(",")
+      row << [student[:name], student[:cohort]]
     end
   end
 end
