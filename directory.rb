@@ -1,3 +1,4 @@
+require 'csv'
 @students = [] # Empty array accessible to all methods
 
 def print_header
@@ -142,7 +143,7 @@ def print_menu
   puts "1. Input Students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "4. Load the list from file"
   puts "9. Exit"
 end
 
@@ -180,59 +181,51 @@ def save_students
   # Asks user to provide file name
   puts "What would you like to name the file? .csv will be added automatically for you"
   user_file_name = STDIN.gets.chomp
-  # Open the file for writing
-  file = File.open("#{user_file_name}.csv", "w")
-  # Iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
-  end
-  file.close
-end
 
+  CSV.open("/#{user_file_name}.csv", "a+") do |row|
+  # Iterate over the array of students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      row << csv_line = student_data.join(",")
+    end
+  end
+end
 
 # Ask if they want a specific file
 # If not load default value
 
 def load_students(filename = "students.csv")
-  puts "Would you like to load a specific file Y/N?"
-  user_input = gets.chomp.upcase
-  if user_input == "Y"
-    puts "Please enter the name of the file you would like without '.csv'"
-    user_file_name = STDIN.gets.chomp
-    file = File.open("#{user_file_name}.csv", "r")
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(",")
+  puts "Do you want to enter a file name? Y/N"
+  user_answer = gets.chomp
+  if user_answer == "Y"
+    puts "Enter a file to load"
+    filename = gets.chomp
+    CSV.foreach(filename) do |student|
+      name, cohort = student
       @students << {name: name, cohort: cohort.to_sym}
     end
-  elsif 
-    puts "Loading students.csv"
-    file = File.open("students.csv", "r")
-    file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
+  elsif user_answer == "N"
+    CSV.foreach(filename) do |student|
+      name, cohort = student
+      @students << {name: name, cohort: cohort.to_sym}
     end
   else
-    puts "#{user_file_name} does not exist"
+    puts "Invalid choice"
   end
-  file.close
-end
+end 
 
 def try_load_students
-  # First argument from command line
+  # first argument from the command line
   filename = ARGV.first
-  # Leaves method if file name not given
-  if filename.nil?
-    puts "Students.csv will now be loaded as default unless you choose otherwise"
-    load_students
-  # If it does exist
-  elsif File.exist?(filename)
+  # get out of the method if it isn't given
+  return if filename.nil? # get out of the method if it isn't given
+  # if it exists
+  if File.exists?(filename)
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
-  # If it doesn't exist
-  else
-    puts "Sorry, #{filename} does not exist."
+     puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
   end
 end
 
