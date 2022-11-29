@@ -218,7 +218,7 @@ def try_load_students
   # get out of the method if it isn't given
   return if filename.nil? # get out of the method if it isn't given
   # if it exists
-  if File.exists?(filename)
+  if File.exist?(filename)
     load_students(filename)
      puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
